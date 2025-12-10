@@ -11,26 +11,25 @@ Generador de tarjetas personalizadas para mostrar tus estadísticas de pasos dur
 - 🏅 Sistema de rangos de fantasía
 - 📱 Diseño responsive
 - 🖼️ Descarga como imagen PNG
-- 🔗 Integración con LinkedIn
 
 ## 🏅 Sistema de Rangos
 
-| Pasos | Rango | Emoji |
-|-------|-------|-------|
-| 0 - 30k | Cloud Seedling | 🌱 |
-| 30k - 50k | Cloud Wanderer | 🧭 |
-| 50k - 75k | Trail Blazer | 🔥 |
-| 75k - 100k | Summit Seeker | ⛰️ |
-| 100k - 125k | Cloud Strider | 🌤️ |
-| 125k - 150k | Legend Walker | 🗺️ |
-| 150k - 175k | Cloud Titan | 👑 |
-| 175k+ | Werner Vogels Mode | 🚀 |
+| Pasos       | Rango              | Emoji |
+| ----------- | ------------------ | ----- |
+| 0 - 30k     | Cloud Seedling     | 🌱    |
+| 30k - 50k   | Cloud Wanderer     | 🧭    |
+| 50k - 75k   | Trail Blazer       | 🔥    |
+| 75k - 100k  | Summit Seeker      | ⛰️    |
+| 100k - 125k | Cloud Strider      | 🌤️    |
+| 125k - 150k | Legend Walker      | 🗺️    |
+| 150k - 175k | Cloud Titan        | 👑    |
+| 175k+       | Werner Vogels Mode | 🚀    |
 
 ## 🚀 Inicio Rápido
 
 ### Prerrequisitos
 
-- Node.js 18+ 
+- Node.js 18+
 - npm o yarn
 
 ### Instalación
@@ -55,61 +54,6 @@ npm run build
 ```
 
 Los archivos se generarán en la carpeta `dist/`
-
-## 🌐 Deploy
-
-### Vercel (Recomendado)
-
-1. Subí el proyecto a GitHub
-2. Conectá tu repo en [vercel.com](https://vercel.com)
-3. Deploy automático ✅
-
-```bash
-# O usando Vercel CLI
-npm i -g vercel
-vercel
-```
-
-### AWS Amplify
-
-1. Subí el proyecto a GitHub
-2. En AWS Console → Amplify → New App → Host web app
-3. Conectá tu repositorio
-4. Build settings automáticos ✅
-
-### AWS S3 + CloudFront
-
-```bash
-# Build
-npm run build
-
-# Subir a S3
-aws s3 sync dist/ s3://tu-bucket-name --delete
-
-# Invalidar CloudFront cache (opcional)
-aws cloudfront create-invalidation --distribution-id XXXXX --paths "/*"
-```
-
-### Netlify
-
-```bash
-# Usando Netlify CLI
-npm i -g netlify-cli
-netlify deploy --prod --dir=dist
-```
-
-### GitHub Pages
-
-1. En `vite.config.js`, cambiar `base` al nombre de tu repo:
-   ```js
-   base: '/nombre-de-tu-repo/',
-   ```
-
-2. Build y deploy:
-   ```bash
-   npm run build
-   # Subir contenido de dist/ a branch gh-pages
-   ```
 
 ## 📁 Estructura del Proyecto
 
@@ -154,9 +98,7 @@ const RANKS = [
 Editá el array `VENUES` en `src/App.jsx`:
 
 ```javascript
-const VENUES = [
-  "Venue 1", "Venue 2", "Venue 3"
-];
+const VENUES = ["Venue 1", "Venue 2", "Venue 3"];
 ```
 
 ## 📄 Licencia
@@ -165,4 +107,4 @@ MIT - Libre para usar y modificar.
 
 ---
 
-Made with ☁️ for the AWS re:Invent community
+Made with ♥️ for the AWS re:Invent community
