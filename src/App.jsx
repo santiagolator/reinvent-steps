@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import html2canvas from 'html2canvas';
+import * as htmlToImage from 'html-to-image';
 
 const RANKS = [
   { min: 0, max: 30000, name: "Cloud Seedling", emoji: "🌱", color: "#6B7280", description: "Your journey begins!" },
@@ -93,19 +93,21 @@ export default function ReInventStepsGenerator() {
   const downloadAsImage = async () => {
     if (!cardRef.current) return;
     setIsDownloading(true);
-    
+
     try {
-      const canvas = await html2canvas(cardRef.current, {
+      const dataUrl = await htmlToImage.toPng(cardRef.current, {
+        quality: 1,
+        pixelRatio: 3,
         backgroundColor: '#1a2332',
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false
+        style: {
+          transform: 'scale(1)',
+          transformOrigin: 'top left'
+        }
       });
-      
+
       const link = document.createElement('a');
       link.download = `reinvent-2025-${formatNumber(totalSteps).replace(/\./g, '')}-steps.png`;
-      link.href = canvas.toDataURL('image/png');
+      link.href = dataUrl;
       link.click();
     } catch (error) {
       console.error('Error generating image:', error);
@@ -364,7 +366,7 @@ export default function ReInventStepsGenerator() {
                   </div>
                 </div>
                 <div style={{
-                  display: 'flex',
+                  display: 'inline-flex',
                   alignItems: 'center',
                   gap: '4px',
                   background: 'rgba(255, 153, 0, 0.15)',
@@ -372,9 +374,11 @@ export default function ReInventStepsGenerator() {
                   borderRadius: '16px',
                   fontSize: '0.65em',
                   color: '#FF9900',
-                  fontWeight: '600'
+                  fontWeight: '600',
+                  lineHeight: 1
                 }}>
-                  📍 Las Vegas
+                  <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>📍</span>
+                  <span>Las Vegas</span>
                 </div>
               </div>
 
@@ -389,11 +393,12 @@ export default function ReInventStepsGenerator() {
                     padding: '10px 20px',
                     background: 'rgba(255, 153, 0, 0.15)',
                     borderRadius: '24px',
-                    border: '1px solid rgba(255, 153, 0, 0.3)'
+                    border: '1px solid rgba(255, 153, 0, 0.3)',
+                    lineHeight: 1
                   }}>
-                    <span style={{ fontSize: '1.2em' }}>{rank.emoji}</span>
-                    <span style={{ color: rank.color, fontSize: '0.85em', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>{rank.name}</span>
-                    <span style={{ fontSize: '1.2em' }}>{rank.emoji}</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '1.2em', lineHeight: 1 }}>{rank.emoji}</span>
+                    <span style={{ color: rank.color, fontSize: '0.85em', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', lineHeight: 1 }}>{rank.name}</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', fontSize: '1.2em', lineHeight: 1 }}>{rank.emoji}</span>
                   </div>
                 </div>
 
@@ -424,30 +429,32 @@ export default function ReInventStepsGenerator() {
                 {/* Stats pills */}
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginBottom: '24px' }}>
                   <div style={{
-                    display: 'flex',
+                    display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     padding: '10px 16px',
                     background: 'rgba(35, 47, 62, 0.8)',
                     borderRadius: '50px',
-                    border: '1px solid rgba(255, 153, 0, 0.2)'
+                    border: '1px solid rgba(255, 153, 0, 0.2)',
+                    lineHeight: 1
                   }}>
-                    <span>⏱️</span>
-                    <span style={{ fontWeight: '700' }}>{activeDays || days.filter(d => d.active).length}</span>
-                    <span style={{ color: '#8b949e', fontSize: '0.8em' }}>días</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>⏱️</span>
+                    <span style={{ fontWeight: '700', lineHeight: 1 }}>{activeDays || days.filter(d => d.active).length}</span>
+                    <span style={{ color: '#8b949e', fontSize: '0.8em', lineHeight: 1 }}>días</span>
                   </div>
                   <div style={{
-                    display: 'flex',
+                    display: 'inline-flex',
                     alignItems: 'center',
                     gap: '6px',
                     padding: '10px 16px',
                     background: 'rgba(35, 47, 62, 0.8)',
                     borderRadius: '50px',
-                    border: '1px solid rgba(255, 153, 0, 0.2)'
+                    border: '1px solid rgba(255, 153, 0, 0.2)',
+                    lineHeight: 1
                   }}>
-                    <span>📍</span>
-                    <span style={{ fontWeight: '700' }}>{totalKm}</span>
-                    <span style={{ color: '#8b949e', fontSize: '0.8em' }}>km</span>
+                    <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>📍</span>
+                    <span style={{ fontWeight: '700', lineHeight: 1 }}>{totalKm}</span>
+                    <span style={{ color: '#8b949e', fontSize: '0.8em', lineHeight: 1 }}>km</span>
                   </div>
                 </div>
 
@@ -495,19 +502,25 @@ export default function ReInventStepsGenerator() {
                                 whiteSpace: 'nowrap',
                                 background: 'rgba(255, 153, 0, 0.15)',
                                 padding: '3px 8px',
-                                borderRadius: '8px'
+                                borderRadius: '8px',
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '3px',
+                                lineHeight: 1
                               }}>
-                                🏆 {formatNumber(maxSteps)}
+                                <span style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 1 }}>🏆</span>
+                                <span style={{ lineHeight: 1 }}>{formatNumber(maxSteps)}</span>
                               </div>
                             )}
                             <div style={{
                               width: '100%',
                               height: `${Math.max(height, 5)}%`,
-                              background: isMax 
+                              background: isMax
                                 ? 'linear-gradient(180deg, #ffcc66 0%, #FF9900 50%, #e68a00 100%)'
-                                : 'linear-gradient(180deg, #3d4f61 0%, #2d3a47 100%)',
+                                : 'linear-gradient(180deg, #4a5d70 0%, #3d4f61 100%)',
                               borderRadius: '5px 5px 2px 2px',
-                              boxShadow: isMax ? '0 0 15px rgba(255, 153, 0, 0.4)' : 'none'
+                              boxShadow: isMax ? '0 0 15px rgba(255, 153, 0, 0.4)' : 'none',
+                              border: isMax ? '1px solid rgba(255, 153, 0, 0.5)' : '1px solid rgba(255, 153, 0, 0.3)'
                             }} />
                           </div>
                           <div style={{ fontSize: '0.65em', color: '#8b949e', marginTop: '8px', fontWeight: '600' }}>
