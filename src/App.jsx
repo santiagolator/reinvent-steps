@@ -267,7 +267,7 @@ export default function ReInventStepsGenerator() {
           style={{
             background: "linear-gradient(160deg, #1a2332 0%, #0f1419 100%)",
             borderRadius: "20px",
-            padding: "24px",
+            padding: isMobile ? "16px" : "24px",
             boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.6)",
             border: "1px solid rgba(255, 153, 0, 0.1)",
           }}
@@ -302,9 +302,11 @@ export default function ReInventStepsGenerator() {
                   background: "rgba(255, 153, 0, 0.1)",
                   color: "#8b949e",
                   borderRight: "1px solid rgba(255, 153, 0, 0.2)",
+                  flexShrink: 0,
+                  fontSize: isMobile ? "12px" : "14px",
                 }}
               >
-                linkedin.com/in/
+                {isMobile ? "in/" : "linkedin.com/in/"}
               </span>
               <input
                 type="text"
@@ -353,8 +355,10 @@ export default function ReInventStepsGenerator() {
                 >
                   <button
                     onClick={() => toggleDay(index)}
-                    className="w-14 py-2 rounded-lg font-bold text-xs"
+                    className="py-2 rounded-lg font-bold text-xs"
                     style={{
+                      width: isMobile ? "44px" : "56px",
+                      flexShrink: 0,
                       background: day.active
                         ? "rgba(255, 153, 0, 0.2)"
                         : "rgba(35, 47, 62, 0.5)",
@@ -379,9 +383,18 @@ export default function ReInventStepsGenerator() {
                       background: "rgba(35, 47, 62, 0.8)",
                       border: "1px solid rgba(255, 153, 0, 0.2)",
                       color: "#fff",
+                      minWidth: 0,
                     }}
                   />
-                  <span className="text-xs w-16" style={{ color: "#6e7681" }}>
+                  <span
+                    className="text-xs"
+                    style={{
+                      color: "#6e7681",
+                      width: isMobile ? "auto" : "64px",
+                      flexShrink: 0,
+                      display: isMobile ? "none" : "block",
+                    }}
+                  >
                     {stepsToKm(day.steps || 0)} km
                   </span>
                   {days.length > 1 && (
@@ -452,7 +465,7 @@ export default function ReInventStepsGenerator() {
                   Total Pasos
                 </div>
                 <div
-                  className="text-2xl font-extrabold"
+                  className="text-xl md:text-2xl font-extrabold"
                   style={{ color: "#FF9900" }}
                 >
                   {formatNumber(totalSteps)}
@@ -465,7 +478,7 @@ export default function ReInventStepsGenerator() {
                 >
                   Distancia
                 </div>
-                <div className="text-2xl font-extrabold">{totalKm} km</div>
+                <div className="text-xl md:text-2xl font-extrabold">{totalKm} km</div>
               </div>
               <div>
                 <div
