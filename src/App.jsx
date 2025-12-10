@@ -1,5 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as htmlToImage from "html-to-image";
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addEventListener("change", listener);
+    return () => media.removeEventListener("change", listener);
+  }, [matches, query]);
+
+  return matches;
+}
 
 const RANKS = [
   {
@@ -109,6 +125,7 @@ export default function ReInventStepsGenerator() {
   const [showCard, setShowCard] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const cardRef = useRef(null);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const totalSteps = days
     .filter((d) => d.active)
@@ -198,6 +215,8 @@ export default function ReInventStepsGenerator() {
         fontFamily:
           "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
         color: "#f1f8ff",
+        overflowX: "hidden",
+        maxWidth: "100vw",
       }}
     >
       {/* Header */}
@@ -236,10 +255,11 @@ export default function ReInventStepsGenerator() {
       <div
         className="max-w-6xl mx-auto grid gap-6"
         style={{
-          gridTemplateColumns: showCard
-            ? "minmax(300px, 1fr) minmax(300px, 420px)"
-            : "1fr",
-          maxWidth: showCard ? "1000px" : "500px",
+          gridTemplateColumns:
+            showCard && !isMobile
+              ? "minmax(300px, 1fr) minmax(300px, 420px)"
+              : "1fr",
+          maxWidth: showCard && !isMobile ? "1000px" : "500px",
         }}
       >
         {/* Form Section */}
