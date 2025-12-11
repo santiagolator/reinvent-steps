@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as htmlToImage from "html-to-image";
+import { Analytics } from "@vercel/analytics/react";
 
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(false);
@@ -1219,6 +1220,8 @@ export default function ReInventStepsGenerator() {
         </div>
         Made with ♥️ for the AWS re:Invent community
       </div>
+
+      <Analytics />
     </div>
   );
 }
