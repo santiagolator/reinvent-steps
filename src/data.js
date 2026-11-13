@@ -78,11 +78,12 @@ export const VENUES = [
   "LINQ",
 ];
 
-// Días oficiales de re:Invent 2026: lunes 30 de noviembre a viernes 4 de diciembre
-export const EVENT_DAYS = ["LUN 30", "MAR 1", "MIÉ 2", "JUE 3", "VIE 4"];
+// Días oficiales de re:Invent 2026: lunes 30 de noviembre a viernes 4 de diciembre.
+// Las etiquetas por idioma están en i18n.js (LANGS.*.days).
+export const EVENT_DAY_COUNT = 5;
 
 export const defaultDays = () =>
-  EVENT_DAYS.map((label) => ({ label, steps: "", active: true }));
+  Array.from({ length: EVENT_DAY_COUNT }, () => ({ steps: "", active: true }));
 
 export const num = (day) => parseInt(day.steps, 10) || 0;
 
@@ -94,10 +95,10 @@ export function nextRank(total) {
   return RANKS.find((r) => r.min > total) || null;
 }
 
-export const formatNumber = (n) => n.toLocaleString("es-AR");
+export const formatNumber = (n, locale) => n.toLocaleString(locale);
 
-export const stepsToKm = (steps) =>
-  (steps * 0.000762).toLocaleString("es-AR", {
+export const stepsToKm = (steps, locale) =>
+  (steps * 0.000762).toLocaleString(locale, {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1,
   });

@@ -11,6 +11,7 @@ import {
   num,
   stepsToKm,
 } from "./data.js";
+import { LANGS, detectLang, saveLang } from "./i18n.js";
 import StepsCard from "./components/StepsCard.jsx";
 import RankLegend from "./components/RankLegend.jsx";
 import { AwsLogo, GitHubIcon, LinkedInIcon } from "./components/Icons.jsx";
@@ -25,6 +26,7 @@ const chip = (on) =>
   }`;
 
 export default function App() {
+  const [lang, setLang] = useState(detectLang);
   const [linkedinUser, setLinkedinUser] = useState("");
   const [days, setDays] = useState(defaultDays);
   const [venues, setVenues] = useState([]);
@@ -34,6 +36,15 @@ export default function App() {
   const frameRef = useRef(null);
   const [scale, setScale] = useState(1);
   const [cardHeight, setCardHeight] = useState(0);
+
+  const t = LANGS[lang];
+  const n = (v) => formatNumber(v, t.locale);
+  const km = (v) => stepsToKm(v, t.locale);
+
+  useEffect(() => {
+    document.documentElement.lang = lang;
+    saveLang(lang);
+  }, [lang]);
 
   // La tarjeta siempre mide 420px; en pantallas angostas se escala visualmente
   // para que el PNG salga igual en mobile y desktop.
@@ -82,12 +93,12 @@ export default function App() {
         backgroundColor: "#16223a",
       });
       const a = document.createElement("a");
-      a.download = `reinvent-${EVENT_YEAR}-${totalSteps}-pasos.png`;
+      a.download = `reinvent-${EVENT_YEAR}-${totalSteps}-${t.fileSuffix}.png`;
       a.href = dataUrl;
       a.click();
     } catch (e) {
       console.error(e);
-      setError("No se pudo generar la imagen. Probá de nuevo.");
+      setError(t.error);
     } finally {
       setDownloading(false);
     }
@@ -98,21 +109,39 @@ export default function App() {
       <div className="mesh" aria-hidden />
 
       <header className="mx-auto mb-10 max-w-5xl">
-        <AwsLogo width={56} />
+        <div className="flex items-start justify-between">
+          <AwsLogo width={56} />
+          <div
+            role="group"
+            aria-label="Idioma / Language"
+            className="flex rounded-full border border-line bg-surface/70 p-0.5 text-xs font-semibold"
+          >
+            {Object.keys(LANGS).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLang(l)}
+                aria-pressed={lang === l}
+                className={`rounded-full px-3 py-1.5 uppercase transition-colors ${
+                  lang === l ? "bg-orange text-ink" : "text-muted hover:text-text"
+                }`}
+              >
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
         <h1 className="mt-5 max-w-2xl font-display text-4xl leading-[1.05] font-bold tracking-tight md:text-5xl">
-          ¿Cuánto caminaste en re:Invent {EVENT_YEAR}?
+          {t.headline(EVENT_YEAR)}
         </h1>
-        <p className="mt-3 max-w-xl text-muted">
-          Cargá tus pasos de cada día, elegí los venues que recorriste y
-          descargá tu tarjeta para compartirla en LinkedIn.
-        </p>
+        <p className="mt-3 max-w-xl text-muted">{t.intro}</p>
       </header>
 
       <main className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start">
         <section className="min-w-0 rounded-3xl border border-line bg-surface/70 p-5 backdrop-blur md:p-7">
           <label className="block">
             <span className="mb-2 flex items-center gap-2 text-sm font-semibold">
-              <LinkedInIcon /> Tu perfil de LinkedIn
+              <LinkedInIcon /> {t.linkedin}
             </span>
             <div className="flex overflow-hidden rounded-xl border border-line bg-ink/60 focus-within:border-orange/60">
               <span className="flex shrink-0 items-center border-r border-line px-3 text-sm text-muted">
@@ -122,7 +151,7 @@ export default function App() {
                 type="text"
                 value={linkedinUser}
                 onChange={(e) => setLinkedinUser(e.target.value.trim())}
-                placeholder="tunombre"
+                placeholder={t.handlePlaceholder}
                 autoComplete="off"
                 className="min-w-0 flex-1 bg-transparent p-3 outline-none placeholder:text-muted/60"
               />
@@ -131,8 +160,8 @@ export default function App() {
 
           <div className="mt-7">
             <div className="mb-3 flex items-baseline justify-between">
-              <span className="text-sm font-semibold">Pasos por día</span>
-              <span className="text-xs text-muted">Tocá un día para excluirlo</span>
+              <span className="text-sm font-semibold">{t.stepsPerDay}</span>
+              <span className="text-xs text-muted">{t.dayHint}</span>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -145,14 +174,14 @@ export default function App() {
                     type="button"
                     onClick={() => updateDay(i, { active: !day.active })}
                     aria-pressed={day.active}
-                    title={day.active ? "Excluir este día" : "Incluir este día"}
+                    title={t.dayToggle(day.active)}
                     className={`w-16 shrink-0 rounded-lg border py-2.5 text-xs font-bold transition-colors ${
                       day.active
                         ? "border-orange/40 bg-orange/15 text-orange"
                         : "border-line bg-surface text-muted"
                     }`}
                   >
-                    {day.label}
+                    {t.days[i]}
                   </button>
                   <input
                     type="number"
@@ -162,11 +191,11 @@ export default function App() {
                     onChange={(e) => updateDay(i, { steps: e.target.value })}
                     placeholder="0"
                     disabled={!day.active}
-                    aria-label={`Pasos del ${day.label}`}
+                    aria-label={t.stepsOn(t.days[i])}
                     className="min-w-0 flex-1 rounded-lg border border-line bg-ink/60 p-2.5 tabular-nums outline-none focus:border-orange/60"
                   />
                   <span className="hidden w-16 shrink-0 text-right text-xs text-muted tabular-nums sm:block">
-                    {stepsToKm(num(day))} km
+                    {km(num(day))} km
                   </span>
                 </div>
               ))}
@@ -174,7 +203,7 @@ export default function App() {
           </div>
 
           <div className="mt-7">
-            <span className="mb-3 block text-sm font-semibold">Venues que recorriste</span>
+            <span className="mb-3 block text-sm font-semibold">{t.venues}</span>
             <div className="flex flex-wrap gap-2">
               {VENUES.map((v) => (
                 <button
@@ -194,11 +223,9 @@ export default function App() {
             <div className="flex items-baseline justify-between gap-4">
               <div>
                 <div className="font-display text-3xl leading-none font-bold tabular-nums text-orange">
-                  {formatNumber(totalSteps)}
+                  {n(totalSteps)}
                 </div>
-                <div className="mt-1 text-xs text-muted">
-                  pasos, {stepsToKm(totalSteps)} km
-                </div>
+                <div className="mt-1 text-xs text-muted">{t.summaryKm(km(totalSteps))}</div>
               </div>
               <div className="text-right">
                 <div className="font-display text-base font-bold" style={{ color: rank.color }}>
@@ -214,9 +241,7 @@ export default function App() {
               />
             </div>
             <p className="mt-2 text-xs text-muted">
-              {next
-                ? `Te faltan ${formatNumber(next.min - totalSteps)} pasos para ${next.name} ${next.emoji}`
-                : "Llegaste al rango máximo. Everything fails all the time, menos tus piernas."}
+              {next ? t.remaining(n(next.min - totalSteps), next) : t.maxRank}
             </p>
           </div>
         </section>
@@ -238,6 +263,7 @@ export default function App() {
                 totalSteps={totalSteps}
                 avgSteps={avgSteps}
                 rank={rank}
+                t={t}
               />
             </div>
           </div>
@@ -255,10 +281,10 @@ export default function App() {
                     <circle cx="12" cy="12" r="10" strokeOpacity="0.25" />
                     <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round" />
                   </svg>
-                  Generando PNG
+                  {t.generating}
                 </>
               ) : (
-                "Descargar PNG"
+                t.download
               )}
             </button>
             <button
@@ -266,7 +292,7 @@ export default function App() {
               onClick={reset}
               className="shrink-0 rounded-xl border border-line px-5 py-3 font-semibold text-muted transition-colors hover:text-text"
             >
-              Reiniciar
+              {t.reset}
             </button>
           </div>
           {error && (
@@ -275,12 +301,12 @@ export default function App() {
             </p>
           )}
 
-          <RankLegend current={rank} />
+          <RankLegend current={rank} t={t} />
         </aside>
       </main>
 
       <footer className="mx-auto mt-16 flex max-w-5xl flex-wrap items-center justify-between gap-4 text-sm text-muted">
-        <span>Hecho con ♥️ para la comunidad de AWS re:Invent</span>
+        <span>{t.footer}</span>
         <div className="flex items-center gap-4">
           <a
             href="https://linkedin.com/in/santiago-lator"

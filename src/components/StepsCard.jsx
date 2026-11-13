@@ -9,8 +9,11 @@ export default function StepsCard({
   totalSteps,
   avgSteps,
   rank,
+  t,
 }) {
-  const active = days.filter((d) => d.active);
+  const n = (v) => formatNumber(v, t.locale);
+  const km = (v) => stepsToKm(v, t.locale);
+  const active = days.map((d, i) => ({ ...d, label: t.days[i] })).filter((d) => d.active);
   const maxSteps = Math.max(0, ...active.map(num));
   const walkedDays = active.filter((d) => num(d) > 0).length || active.length;
 
@@ -48,12 +51,11 @@ export default function StepsCard({
           className="font-display text-[4.25rem] leading-none font-bold tracking-tight tabular-nums"
           style={{ color: rank.color, textShadow: `0 0 48px ${rank.color}66` }}
         >
-          {formatNumber(totalSteps)}
+          {n(totalSteps)}
         </div>
         <p className="mt-3 text-sm text-muted">
-          pasos en {walkedDays} {walkedDays === 1 ? "día" : "días"},{" "}
-          <span className="text-text">{stepsToKm(totalSteps)} km</span>{" "}
-          recorridos
+          {t.cardSteps(walkedDays)}{" "}
+          <span className="text-text">{km(totalSteps)} km</span> {t.cardWalked}
         </p>
       </div>
 
@@ -71,7 +73,7 @@ export default function StepsCard({
                       className="absolute -top-6 left-1/2 -translate-x-1/2 rounded-md px-2 py-1 text-[10px] leading-none font-bold whitespace-nowrap tabular-nums"
                       style={{ color: rank.color, background: `${rank.color}22` }}
                     >
-                      {formatNumber(maxSteps)}
+                      {n(maxSteps)}
                     </div>
                   )}
                   <div
@@ -109,17 +111,15 @@ export default function StepsCard({
       <div className="mx-6 mt-6 flex items-end justify-between border-t border-line py-5">
         <div>
           <div className="font-display text-2xl leading-none font-bold tabular-nums">
-            {formatNumber(avgSteps)}
+            {n(avgSteps)}
           </div>
-          <div className="mt-1 text-xs text-muted">
-            pasos por día, {stepsToKm(avgSteps)} km
-          </div>
+          <div className="mt-1 text-xs text-muted">{t.cardAvg(km(avgSteps))}</div>
         </div>
         <div className="text-right">
           <div className="text-xs font-semibold text-orange">#AWSreInvent</div>
           <div className="mt-1 flex items-center justify-end gap-1 text-xs text-muted">
             <LinkedInIcon size={12} />
-            in/{linkedinUser || "tunombre"}
+            in/{linkedinUser || t.handlePlaceholder}
           </div>
         </div>
       </div>

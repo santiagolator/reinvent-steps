@@ -12,6 +12,7 @@ Generador de tarjetas personalizadas para mostrar tus estadísticas de pasos dur
 - 🏨 Selección de venues recorridos
 - 🏅 Sistema de rangos con temática AI y progreso al próximo rango
 - 👀 Tarjeta con preview en vivo mientras cargás los datos
+- 🌐 Español e inglés, con detección automática del idioma del browser
 - 📱 Diseño responsive
 - 🖼️ Descarga como imagen PNG
 
@@ -67,6 +68,7 @@ reinvent-steps/
 ├── src/
 │   ├── App.jsx                  # Formulario, estado y layout
 │   ├── data.js                  # Rangos, venues y helpers
+│   ├── i18n.js                  # Textos en español e inglés
 │   ├── components/
 │   │   ├── StepsCard.jsx        # La tarjeta que se exporta a PNG
 │   │   ├── RankLegend.jsx       # Tabla de rangos
