@@ -8,7 +8,7 @@ Generador de tarjetas personalizadas para mostrar tus estadísticas de pasos dur
 
 ## ✨ Características
 
-- 📊 Ingreso de pasos por día (1-7 días)
+- 📊 Ingreso de pasos por día, lunes 30 de noviembre a viernes 4 de diciembre
 - 🏨 Selección de venues recorridos
 - 🏅 Sistema de rangos con temática AI y progreso al próximo rango
 - 👀 Tarjeta con preview en vivo mientras cargás los datos

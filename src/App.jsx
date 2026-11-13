@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import * as htmlToImage from "html-to-image";
 import { Analytics } from "@vercel/analytics/react";
 import {
-  DAY_LABELS,
   EVENT_YEAR,
   VENUES,
   defaultDays,
@@ -131,19 +130,9 @@ export default function App() {
           </label>
 
           <div className="mt-7">
-            <div className="mb-3 flex items-center justify-between">
+            <div className="mb-3 flex items-baseline justify-between">
               <span className="text-sm font-semibold">Pasos por día</span>
-              {days.length < 7 && (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setDays([...days, { label: DAY_LABELS[days.length], steps: "", active: true }])
-                  }
-                  className="rounded-lg border border-orange/40 bg-orange/15 px-3 py-1.5 text-xs font-semibold text-orange hover:bg-orange/25"
-                >
-                  Agregar día
-                </button>
-              )}
+              <span className="text-xs text-muted">Tocá un día para excluirlo</span>
             </div>
 
             <div className="flex flex-col gap-2">
@@ -157,7 +146,7 @@ export default function App() {
                     onClick={() => updateDay(i, { active: !day.active })}
                     aria-pressed={day.active}
                     title={day.active ? "Excluir este día" : "Incluir este día"}
-                    className={`w-14 shrink-0 rounded-lg border py-2.5 text-xs font-bold transition-colors ${
+                    className={`w-16 shrink-0 rounded-lg border py-2.5 text-xs font-bold transition-colors ${
                       day.active
                         ? "border-orange/40 bg-orange/15 text-orange"
                         : "border-line bg-surface text-muted"
@@ -179,16 +168,6 @@ export default function App() {
                   <span className="hidden w-16 shrink-0 text-right text-xs text-muted tabular-nums sm:block">
                     {stepsToKm(num(day))} km
                   </span>
-                  {days.length > 1 && (
-                    <button
-                      type="button"
-                      onClick={() => setDays(days.filter((_, j) => j !== i))}
-                      aria-label={`Quitar ${day.label}`}
-                      className="rounded-md p-2 text-sm text-muted hover:bg-red-500/15 hover:text-red-400"
-                    >
-                      ✕
-                    </button>
-                  )}
                 </div>
               ))}
             </div>

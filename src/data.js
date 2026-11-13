@@ -78,10 +78,11 @@ export const VENUES = [
   "LINQ",
 ];
 
-export const DAY_LABELS = ["DOM", "LUN", "MAR", "MIÉ", "JUE", "VIE", "SÁB"];
+// Días oficiales de re:Invent 2026: lunes 30 de noviembre a viernes 4 de diciembre
+export const EVENT_DAYS = ["LUN 30", "MAR 1", "MIÉ 2", "JUE 3", "VIE 4"];
 
 export const defaultDays = () =>
-  DAY_LABELS.slice(0, 6).map((label) => ({ label, steps: "", active: true }));
+  EVENT_DAYS.map((label) => ({ label, steps: "", active: true }));
 
 export const num = (day) => parseInt(day.steps, 10) || 0;
 
