@@ -10,7 +10,8 @@ Generador de tarjetas personalizadas para mostrar tus estadísticas de pasos dur
 
 - 📊 Ingreso de pasos por día (1-7 días)
 - 🏨 Selección de venues recorridos
-- 🏅 Sistema de rangos con temática AI
+- 🏅 Sistema de rangos con temática AI y progreso al próximo rango
+- 👀 Tarjeta con preview en vivo mientras cargás los datos
 - 📱 Diseño responsive
 - 🖼️ Descarga como imagen PNG
 
@@ -60,44 +61,47 @@ Los archivos se generarán en la carpeta `dist/`
 ## 📁 Estructura del Proyecto
 
 ```
-reinvent-steps-app/
+reinvent-steps/
 ├── public/
 │   └── favicon.svg
 ├── src/
-│   ├── App.jsx          # Componente principal
-│   ├── main.jsx         # Punto de entrada
-│   └── index.css        # Estilos globales
+│   ├── App.jsx                  # Formulario, estado y layout
+│   ├── data.js                  # Rangos, venues y helpers
+│   ├── components/
+│   │   ├── StepsCard.jsx        # La tarjeta que se exporta a PNG
+│   │   ├── RankLegend.jsx       # Tabla de rangos
+│   │   └── Icons.jsx            # Logo AWS, LinkedIn, GitHub
+│   ├── main.jsx                 # Punto de entrada
+│   └── index.css                # Tokens de tema (Tailwind 4) y fondo
 ├── index.html
 ├── package.json
 ├── vite.config.js
-├── tailwind.config.js
-├── postcss.config.js
 └── README.md
 ```
 
 ## 🛠️ Tecnologías
 
-- [React 18](https://react.dev/)
-- [Vite 5](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- Canvas API para generación de PNG
+- [React 19](https://react.dev/)
+- [Vite 8](https://vite.dev/)
+- [Tailwind CSS 4](https://tailwindcss.com/)
+- [html-to-image](https://github.com/bubkoo/html-to-image) para generar el PNG
 
 ## 📝 Personalización
 
 ### Cambiar rangos
 
-Editá el array `RANKS` en `src/App.jsx`:
+Editá el array `RANKS` en `src/data.js`:
 
 ```javascript
 const RANKS = [
-  { min: 0, max: 30000, name: "Tu Rango", emoji: "🎯", color: "#FF9900" },
+  { min: 0, max: 30000, name: "Tu Rango", emoji: "🎯", color: "#FF9900", description: "..." },
   // ...
 ];
 ```
 
 ### Cambiar venues
 
-Editá el array `VENUES` en `src/App.jsx`:
+Editá el array `VENUES` en `src/data.js`:
 
 ```javascript
 const VENUES = ["Venue 1", "Venue 2", "Venue 3"];
