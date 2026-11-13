@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import * as htmlToImage from "html-to-image";
 import { Analytics } from "@vercel/analytics/react";
 
+const EVENT_YEAR = 2026;
+
 function useMediaQuery(query) {
   const [matches, setMatches] = useState(false);
 
@@ -90,6 +92,7 @@ const VENUES = [
   "MGM Grand",
   "Wynn",
   "Caesars Forum",
+  "Caesars Palace",
   "Mandalay Bay",
   "Encore",
   "LINQ",
@@ -193,7 +196,7 @@ export default function ReInventStepsGenerator() {
       });
 
       const link = document.createElement("a");
-      link.download = `reinvent-2025-${formatNumber(totalSteps).replace(
+      link.download = `reinvent-${EVENT_YEAR}-${formatNumber(totalSteps).replace(
         /\./g,
         ""
       )}-steps.png`;
@@ -258,7 +261,7 @@ export default function ReInventStepsGenerator() {
             WebkitTextFillColor: "transparent",
           }}
         >
-          re:Invent 2025 Step Counter
+          re:Invent {EVENT_YEAR} Step Counter
         </h1>
         <p style={{ color: "#8b949e" }}>
           Generá tu tarjeta personalizada con tus pasos del evento
@@ -612,7 +615,7 @@ export default function ReInventStepsGenerator() {
                         fontWeight: "600",
                       }}
                     >
-                      2025 • LAS VEGAS
+                      {EVENT_YEAR} • LAS VEGAS
                     </div>
                   </div>
                 </div>

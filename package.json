@@ -1,7 +1,7 @@
 {
   "name": "reinvent-steps-counter",
   "version": "1.0.0",
-  "description": "Generador de tarjetas de pasos para AWS re:Invent 2025",
+  "description": "Generador de tarjetas de pasos para AWS re:Invent 2026",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,6 @@
   "dependencies": {
     "@vercel/analytics": "^1.6.1",
     "html-to-image": "^1.11.13",
-    "html2canvas": "^1.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
