@@ -10,22 +10,22 @@ Generador de tarjetas personalizadas para mostrar tus estadísticas de pasos dur
 
 - 📊 Ingreso de pasos por día (1-7 días)
 - 🏨 Selección de venues recorridos
-- 🏅 Sistema de rangos de fantasía
+- 🏅 Sistema de rangos con temática AI
 - 📱 Diseño responsive
 - 🖼️ Descarga como imagen PNG
 
 ## 🏅 Sistema de Rangos
 
-| Pasos       | Rango              | Emoji |
-| ----------- | ------------------ | ----- |
-| 0 - 30k     | Cloud Seedling     | 🌱    |
-| 30k - 50k   | Cloud Wanderer     | 🧭    |
-| 50k - 75k   | Trail Blazer       | 🔥    |
-| 75k - 100k  | Summit Seeker      | ⛰️    |
-| 100k - 125k | Cloud Strider      | 🌤️    |
-| 125k - 150k | Legend Walker      | 🗺️    |
-| 150k - 175k | Cloud Titan        | 👑    |
-| 175k+       | Werner Vogels Mode | 🚀    |
+| Pasos       | Rango                 | Emoji |
+| ----------- | --------------------- | ----- |
+| 0 - 30k     | Prompt Padawan        | 🌱    |
+| 30k - 50k   | Context Window Walker | 🧭    |
+| 50k - 75k   | Vibe Coder            | ✨    |
+| 75k - 100k  | Token Burner          | 🔥    |
+| 100k - 125k | Agentic Strider       | 🤖    |
+| 125k - 150k | Multi-Agent Legend    | 🧠    |
+| 150k - 175k | AGI Titan             | 👑    |
+| 175k+       | Werner Vogels Mode    | 🚀    |
 
 ## 🚀 Inicio Rápido
 
